@@ -148,13 +148,9 @@
       const repo = 'cdn.rueben.xyz'; // Replace with your repository name
       const branch = 'main'; // Change if using a different branch
       const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/`;
-      
-      // *** FIX HERE: Use the custom subdomain for raw file links ***
-      // Files hosted on GitHub Pages with a custom domain are served directly from the root
-      // based on their path in the repository.
       const rawUrl = `https://cdn.rueben.xyz/`; 
       
-      const initialPath = 'content'; // Start from the 'content' folder
+      const defaultInitialPath = 'content'; // The folder to start in if no URL path is specified
 
       // Tracks navigation history for "Back" functionality
       let historyStack = [];
@@ -165,19 +161,26 @@
         try {
           const response = await fetch(apiUrl + path);
           if (!response.ok) {
+            // Check for 404 error specifically for a clearer message
+            if (response.status === 404) {
+                 throw new Error(`Folder Not Found: The path "${path}" does not exist in the repository.`);
+            }
             throw new Error(`GitHub API returned status ${response.status}`);
           }
           const files = await response.json();
           const fileList = document.getElementById('file-list');
           fileList.innerHTML = ''; // Clear previous entries
 
-          // Update header path - Show a clean path or "Content Home"
-          const displayPath =
-            path === initialPath ? 'Content Home' : path.replace(initialPath + '/', '');
-          document.getElementById('current-path').textContent = displayPath || 'Content Home';
+          // Update header path
+          // Remove the defaultInitialPath prefix for display if it's there
+          let displayPath = path;
+          if (path.startsWith(defaultInitialPath)) {
+            displayPath = path.substring(defaultInitialPath.length + (path === defaultInitialPath ? 0 : 1)) || 'root';
+          }
+          document.getElementById('current-path').textContent = displayPath;
 
-          // Handle Back button state
-          document.getElementById('back-btn').disabled = path === initialPath || historyStack.length === 0;
+          // Handle Back button state - disable if we are at the root or defaultInitialPath
+          document.getElementById('back-btn').disabled = historyStack.length === 0;
 
           files.forEach(file => {
             const li = document.createElement('li');
@@ -200,8 +203,6 @@
               };
             } else if (file.type === 'file') {
               // If it's a file, create a direct link to the raw file
-              // The file.path contains the full path (e.g., content/images/logo.png)
-              // which is correct for a GitHub Pages site served from the root.
               link.href = rawUrl + file.path; 
               link.target = '_blank';
               iconSpan.textContent = '📄';
@@ -215,7 +216,7 @@
         } catch (error) {
           console.error('Error fetching files:', error);
           const fileList = document.getElementById('file-list');
-          fileList.innerHTML = `<li>Error: Could not load content. Check the console for details or ensure the '${initialPath}' folder exists.</li>`;
+          fileList.innerHTML = `<li><span class="icon">⚠️</span> **Error:** ${error.message}. Please check your path.</li>`;
         }
       }
 
@@ -228,9 +229,24 @@
         }
       }
 
-      // Load the starting directory by default
-      currentPath = initialPath;
-      loadFiles(initialPath);
+      // --- NEW LOGIC: Check URL for path parameter ---
+      function initialize() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const pathParam = urlParams.get('path');
+          
+          let startPath = defaultInitialPath;
+
+          if (pathParam) {
+              // Prepend the default base folder if the path is relative
+              startPath = `${defaultInitialPath}/${pathParam}`;
+          }
+          
+          currentPath = startPath;
+          loadFiles(startPath);
+      }
+
+      // Load the directory based on URL or default
+      initialize();
     </script>
   </body>
 </html>
