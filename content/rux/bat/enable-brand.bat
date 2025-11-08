@@ -24,6 +24,8 @@ cd /d C:\windows\rux
 regedit.exe /s branding.reg
 taskkill /f /im explorer.exe
 start explorer.exe
+timeout /t 3 >nul
+start ms-settings:about
 
 ECHO Registry modification complete.
 exit
