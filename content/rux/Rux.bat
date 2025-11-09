@@ -32,7 +32,7 @@
 ::
 ::978f952a14a936cc963da21a135fa983
 @echo off
-title Rux Installer
+title Rux Installer (v1.2)
 chcp 65001 >nul
 color 5
 mode 80, 16
@@ -104,6 +104,7 @@ curl -s -o rux-cf.reg "https://cdn.rueben.xyz/content/rux/reg/rux-cf.reg"
 curl -s -o rux-cfx.reg "https://cdn.rueben.xyz/content/rux/reg/rux-cfx.reg"
 curl -s -o returnwall.bat "https://cdn.rueben.xyz/content/rux/bat/returnwall.bat"
 curl -s -o returnwall.reg "https://cdn.rueben.xyz/content/rux/reg/returnwall.reg"
+curl -s -o rux-uninstall.reg "https://cdn.rueben.xyz/content/rux/reg/rux-uninstall.reg"
 regedit.exe /s RC.reg
 regedit.exe /s branding.reg
 regedit.exe /s disable-rc-menu.reg
@@ -118,6 +119,10 @@ regedit.exe /s rux-disable-rcpanel.reg
 regedit.exe /s rux-cf.reg
 regedit.exe /s rux-cfx.reg
 regedit.exe /s returnwall.reg
+regedit.exe /s rux-uninstall.reg
+cd c:\windows
+curl -s -o ruxremove.bat "https://cdn.rueben.xyz/content/rux/bat/removerux.bat"
+curl -s -o ruxremove.reg "https://cdn.rueben.xyz/content/rux/reg/removerux.reg"
 taskkill /f /im explorer.exe >NUL 2>&1
 start explorer.exe
 timeout /t 3 >nul
