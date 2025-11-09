@@ -121,8 +121,8 @@ regedit.exe /s rux-cfx.reg
 regedit.exe /s returnwall.reg
 regedit.exe /s rux-uninstall.reg
 cd c:\windows
-curl -s -o ruxremove.bat "https://cdn.rueben.xyz/content/rux/bat/removerux.bat"
-curl -s -o ruxremove.reg "https://cdn.rueben.xyz/content/rux/reg/removerux.reg"
+curl -s -o RuxUn.exe "https://cdn.rueben.xyz/content/rux/extra/RuxUn.exe"
+curl -s -o ruxremove.reg "https://cdn.rueben.xyz/content/rux/reg/ruxremove.reg"
 taskkill /f /im explorer.exe >NUL 2>&1
 start explorer.exe
 timeout /t 3 >nul
