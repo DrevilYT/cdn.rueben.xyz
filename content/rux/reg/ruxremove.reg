@@ -1,0 +1,14 @@
+Windows Registry Editor Version 5.00
+
+[-HKEY_CLASSES_ROOT\rux-cf]
+[-HKEY_CLASSES_ROOT\rux-cfx]
+[-HKEY_CLASSES_ROOT\rux-disable-brand]
+[-HKEY_CLASSES_ROOT\rux-disable-rcpanel]
+[-HKEY_CLASSES_ROOT\rux-disable-win11]
+[-HKEY_CLASSES_ROOT\rux-enable-brand]
+[-HKEY_CLASSES_ROOT\rux-enable-rcpanel]
+[-HKEY_CLASSES_ROOT\rux-enable-win11]
+[-HKEY_CLASSES_ROOT\rux-key]
+[-HKEY_CLASSES_ROOT\rux-returnwall]
+[-HKEY_CLASSES_ROOT\rux-uninstall]
+[-HKEY_CLASSES_ROOT\rux]
