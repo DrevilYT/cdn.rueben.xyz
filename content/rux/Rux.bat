@@ -33,6 +33,9 @@
 ::978f952a14a936cc963da21a135fa983
 @echo off
 title Rux Installer (v1.2)
+cd c:\windows
+del RuxUn.exe /q /f
+del ruxremove.reg /q /f
 chcp 65001 >nul
 color 5
 mode 80, 16
