@@ -1,7 +1,25 @@
 @echo off
+:: Check for admin rights
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo you are running the beta 
+    timeout /t 1 >nul
+    echo for this the script has to self-sign for it to work properly with admin privileges
+    timeout /t 1 >nul
+    echo attempting to auto self-sign
+    timeout /t 2 >nul
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit
+)
+
+:: Your admin commands below
 mode 100, 25
 title Steam Unlocker - by Rueben Software
 chcp 65001 >nul
+
+
+timeout /t 2 >nul
+cls
 goto banner
 :banner
 cls
